@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AXIOM — Workforce Orchestration Platform
+
+> A premium SaaS roster management system built for Taylor's University ICT Service Desk.
+
+![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)
+![Prisma](https://img.shields.io/badge/Prisma-5.22-2D3748?logo=prisma)
+![Tailwind](https://img.shields.io/badge/Tailwind-3.4-06B6D4?logo=tailwindcss)
+
+## Features
+
+- **Role-Based Authentication** — Admin, Manager, and Employee roles via NextAuth.js
+- **Employee Management** — CRUD with activation/deactivation, buddy assignments
+- **Roster Builder Canvas** — Interactive week × shift grid with dropdown assignments
+- **Auto-Schedule Engine** — Randomized fairness-balanced assignment algorithm
+- **Excel Import/Export** — Parses the actual Q2 June Duty Roster format
+- **Multi-Format Export** — CSV, Excel (.xlsx), and PDF downloads
+- **Email Notifications** — Resend-powered shift alerts with React Email templates
+- **Analytics Dashboard** — Coverage, workload, weekend equity, and shift heatmap visualizations
+- **Settings Panel** — Organization config, shift type CRUD, notification preferences
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| Framework | Next.js 14 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS + shadcn/ui |
+| Database | SQLite (dev) / PostgreSQL (production-ready) |
+| ORM | Prisma |
+| Auth | NextAuth.js (Credentials Provider) |
+| State | TanStack Query + Zustand |
+| Charts | Recharts |
+| Email | Resend + React Email |
+| Excel | SheetJS (xlsx) |
+| PDF | jsPDF + autoTable |
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+# Install dependencies
+npm install
+
+# Set up environment
+cp .env.example .env
+# Edit .env with your DATABASE_URL and NEXTAUTH_SECRET
+
+# Generate Prisma client
+npx prisma generate
+
+# Push schema & seed data
+npx prisma db push
+npx prisma db seed
+
+# Start dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) and log in with:
+- **Admin:** `admin@taylors.edu.my` / `admin123`
+- **Manager:** `manager@taylors.edu.my` / `manager123`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Demo Credentials
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | `admin@taylors.edu.my` | `admin123` |
+| Manager | `manager@taylors.edu.my` | `manager123` |
+| Employee | Any seeded employee email | `employee123` |
 
-## Learn More
+## Deployment
 
-To learn more about Next.js, take a look at the following resources:
+### Option A: Vercel + Neon PostgreSQL (Recommended)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Switch `prisma/schema.prisma` to `provider = "postgresql"`
+2. Create a [Neon](https://neon.tech) database
+3. Set `DATABASE_URL` in Vercel environment variables
+4. Deploy: `vercel --prod`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Option B: Render / Railway (Keep SQLite)
 
-## Deploy on Vercel
+1. Push this repo to GitHub
+2. Create a new Web Service on [Render](https://render.com)
+3. Build command: `npm install && npx prisma generate && npx prisma db push && npm run build`
+4. Start command: `npm start`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+axiom/
+├── app/
+│   ├── (auth)/          # Login page
+│   ├── (dashboard)/      # Main app pages (rosters, employees, analytics, settings)
+│   └── api/              # API routes
+├── components/
+│   ├── emails/           # React Email templates
+│   ├── layout/           # Sidebar, header
+│   └── ui/               # shadcn/ui components
+├── lib/
+│   ├── auth.ts           # NextAuth config
+│   └── prisma.ts         # Prisma client
+├── prisma/
+│   ├── schema.prisma     # Database schema
+│   └── seed.ts           # Seed script
+└── types/
+    └── next-auth.d.ts    # Auth type extensions
+```
+
+## License
+
+MIT — Built for Taylor's University ICT Service Desk.
