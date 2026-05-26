@@ -109,7 +109,7 @@ export async function POST(req: Request) {
         const { data: sendData, error: sendError } = await resend.emails.send({
           from: "AXIOM <roster@taylors.edu.my>",
           to: data.email,
-          subject: `Your Shift Schedule — ${months[roster.month - 1]} ${roster.year}`,
+          subject: `Your Shift Schedule - ${months[roster.month - 1]} ${roster.year}`,
           html,
         })
 
@@ -135,7 +135,7 @@ export async function POST(req: Request) {
         rosterId,
         recipientEmail: data.email,
         recipientName: data.name,
-        subject: `Your Shift Schedule — ${months[roster.month - 1]} ${roster.year}`,
+        subject: `Your Shift Schedule - ${months[roster.month - 1]} ${roster.year}`,
         status,
         resendId,
         error,

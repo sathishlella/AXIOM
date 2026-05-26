@@ -254,7 +254,7 @@ export default function EmployeesPage() {
                           Buddy
                         </Badge>
                       ) : (
-                        <span className="text-slate-600">—</span>
+                        <span className="text-slate-600">-</span>
                       )}
                     </TableCell>
                     <TableCell>

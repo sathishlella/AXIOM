@@ -489,7 +489,7 @@ export default function RosterDetailPage() {
                                   : ""
                               }`}
                             >
-                              <SelectValue placeholder="—" />
+                              <SelectValue placeholder="-" />
                             </SelectTrigger>
                             <SelectContent className="bg-slate-800 border-slate-700">
                               {data.employees.map((emp) => (

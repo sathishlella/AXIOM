@@ -77,7 +77,7 @@ export default function WeeklyShiftEmail({
               If you have any conflicts or need to request a swap, please contact your manager as soon as possible.
             </Text>
             <Text style={footerText}>
-              — Taylor&apos;s ICT Service Desk
+              - Taylor&apos;s ICT Service Desk
             </Text>
           </Section>
         </Container>

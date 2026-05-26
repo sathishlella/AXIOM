@@ -265,7 +265,7 @@ export default function SettingsPage() {
                         <TableCell className="text-slate-400">
                           {st.startTime} - {st.endTime}
                         </TableCell>
-                        <TableCell className="text-slate-400">{st.location || "—"}</TableCell>
+                        <TableCell className="text-slate-400">{st.location || "-"}</TableCell>
                         <TableCell>
                           <Badge
                             className={

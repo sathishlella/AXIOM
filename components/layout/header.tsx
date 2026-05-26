@@ -12,7 +12,7 @@ export function Header() {
     <header className="flex h-16 items-center justify-between border-b border-slate-800 bg-slate-950 px-6">
       <div>
         <h2 className="text-sm font-medium text-slate-400">
-          Taylor&apos;s University — ICT Service Desk
+          Taylor&apos;s University - ICT Service Desk
         </h2>
       </div>
       <div className="flex items-center gap-4">
