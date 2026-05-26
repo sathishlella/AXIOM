@@ -1,0 +1,170 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model User {
+  id             String   @id @default(cuid())
+  name           String?
+  email          String   @unique
+  emailVerified  DateTime?
+  image          String?
+  password       String?
+  initials       String?  @unique
+  role           String   @default("EMPLOYEE") // ADMIN, MANAGER, EMPLOYEE
+  department     String   @default("ICT")
+  isBuddy        Boolean  @default(false)
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  accounts       Account[]
+  sessions       Session[]
+  assignments    ShiftAssignment[]
+  availability   Availability[]
+  auditLogs      AuditLog[]
+  createdRosters Roster[] @relation("RosterCreator")
+}
+
+model ShiftType {
+  id            String @id @default(cuid())
+  name          String
+  code          String @unique
+  startTime     String
+  endTime       String
+  location      String?
+  category      String @default("STANDARD") // EARLY, STANDARD, WEEKEND
+  requiresBuddy Boolean @default(false)
+  sortOrder     Int    @default(0)
+
+  assignments   ShiftAssignment[]
+}
+
+model Roster {
+  id          String   @id @default(cuid())
+  name        String
+  month       Int
+  year        Int
+  status      String   @default("DRAFT") // DRAFT, PUBLISHED, ARCHIVED
+  createdById String
+  createdBy   User     @relation("RosterCreator", fields: [createdById], references: [id])
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  weeks       Week[]
+  auditLogs   AuditLog[]
+  emailLogs   EmailLog[]
+}
+
+model Week {
+  id          String   @id @default(cuid())
+  rosterId    String
+  roster      Roster   @relation(fields: [rosterId], references: [id], onDelete: Cascade)
+  weekLabel   String
+  startDate   DateTime
+  endDate     DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  assignments ShiftAssignment[]
+}
+
+model ShiftAssignment {
+  id          String    @id @default(cuid())
+  weekId      String
+  week        Week      @relation(fields: [weekId], references: [id], onDelete: Cascade)
+  shiftTypeId String
+  shiftType   ShiftType @relation(fields: [shiftTypeId], references: [id])
+  employeeId  String
+  employee    User      @relation(fields: [employeeId], references: [id])
+  notes       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([weekId, shiftTypeId])
+}
+
+model Availability {
+  id         String   @id @default(cuid())
+  employeeId String
+  employee   User     @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  date       DateTime
+  status     String   @default("AVAILABLE") // AVAILABLE, UNAVAILABLE, PREFERRED
+  reason     String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([employeeId, date])
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  rosterId  String?
+  roster    Roster?  @relation(fields: [rosterId], references: [id])
+  action    String
+  details   String?
+  createdAt DateTime @default(now())
+}
+
+model EmailLog {
+  id             String   @id @default(cuid())
+  rosterId       String?
+  roster         Roster?  @relation(fields: [rosterId], references: [id])
+  recipientEmail String
+  recipientName  String
+  subject        String
+  status         String   @default("PENDING") // PENDING, SENT, FAILED
+  resendId       String?
+  error          String?
+  sentAt         DateTime?
+  createdAt      DateTime @default(now())
+}
+
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+}
