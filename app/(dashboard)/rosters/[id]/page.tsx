@@ -282,7 +282,7 @@ export default function RosterDetailPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-start justify-between">
+      <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
         <div className="space-y-1">
           <Link
             href="/rosters"
@@ -291,8 +291,8 @@ export default function RosterDetailPage() {
             <ChevronLeft className="h-4 w-4 mr-1" />
             Back to Rosters
           </Link>
-          <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-bold tracking-tight text-white">
+          <div className="flex flex-wrap items-center gap-3">
+            <h1 className="text-xl md:text-2xl font-bold tracking-tight text-white">
               {data.roster.name}
             </h1>
             <Badge
@@ -308,12 +308,12 @@ export default function RosterDetailPage() {
               {data.roster.status}
             </Badge>
           </div>
-          <p className="text-slate-400">
+          <p className="text-slate-400 text-sm">
             {months[data.roster.month - 1]} {data.roster.year} · Created by{" "}
             {data.roster.createdBy.name || data.roster.createdBy.initials}
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <input
             type="file"
             accept=".xlsx,.xls"
@@ -444,7 +444,7 @@ export default function RosterDetailPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-slate-800">
-                  <th className="text-left p-4 text-slate-400 font-medium whitespace-nowrap">
+                  <th className="text-left p-4 text-slate-400 font-medium whitespace-nowrap sticky left-0 bg-slate-900/95 z-10">
                     Week
                   </th>
                   {data.shiftTypes.map((st) => (
@@ -463,7 +463,7 @@ export default function RosterDetailPage() {
               <tbody>
                 {data.roster.weeks.map((week) => (
                   <tr key={week.id} className="border-b border-slate-800/50">
-                    <td className="p-4 whitespace-nowrap">
+                    <td className="p-4 whitespace-nowrap sticky left-0 bg-slate-900/95 z-10">
                       <div className="flex flex-col">
                         <span className="font-medium text-white">{week.weekLabel}</span>
                         <span className="text-xs text-slate-500">
@@ -518,7 +518,7 @@ export default function RosterDetailPage() {
       </Card>
 
       {/* Legend */}
-      <div className="flex items-center gap-6 text-xs text-slate-500">
+      <div className="flex flex-wrap items-center gap-4 md:gap-6 text-xs text-slate-500">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 bg-slate-800 border-l-4 border-l-emerald-500 rounded" />
           <span>Assigned</span>

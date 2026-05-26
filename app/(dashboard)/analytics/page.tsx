@@ -77,13 +77,13 @@ export default function AnalyticsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white">Analytics</h1>
+          <h1 className="text-xl md:text-2xl font-bold tracking-tight text-white">Analytics</h1>
           <p className="text-slate-400">Workload insights and coverage reports.</p>
         </div>
         <Select value={selectedRoster} onValueChange={setSelectedRoster}>
-          <SelectTrigger className="w-64 bg-slate-800 border-slate-700 text-white">
+          <SelectTrigger className="w-full sm:w-64 bg-slate-800 border-slate-700 text-white">
             <SelectValue placeholder="Select a roster" />
           </SelectTrigger>
           <SelectContent className="bg-slate-800 border-slate-700">
@@ -112,7 +112,7 @@ export default function AnalyticsPage() {
       ) : analytics ? (
         <>
           {/* Summary Cards */}
-          <div className="grid gap-4 md:grid-cols-4">
+          <div className="grid gap-4 grid-cols-2 md:grid-cols-4">
             <Card className="border-slate-800 bg-slate-900/50">
               <CardHeader className="pb-2">
                 <CardDescription className="text-slate-400">Total Assignments</CardDescription>
@@ -155,8 +155,9 @@ export default function AnalyticsPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <ResponsiveContainer width="100%" height={250}>
-                <BarChart data={analytics.coverage}>
+              <div className="h-[200px] md:h-[250px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={analytics.coverage}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
                   <XAxis dataKey="weekLabel" stroke="#94a3b8" />
                   <YAxis stroke="#94a3b8" />
@@ -170,8 +171,9 @@ export default function AnalyticsPage() {
                   />
                   <Bar dataKey="assigned" fill="#10b981" radius={[4, 4, 0, 0]} />
                   <Bar dataKey="total" fill="#334155" radius={[4, 4, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
             </CardContent>
           </Card>
 
@@ -184,8 +186,9 @@ export default function AnalyticsPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={analytics.workload} layout="vertical">
+              <div className="h-[220px] md:h-[300px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={analytics.workload} layout="vertical">
                   <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
                   <XAxis type="number" stroke="#94a3b8" />
                   <YAxis dataKey="initials" type="category" stroke="#94a3b8" width={50} />
@@ -198,12 +201,13 @@ export default function AnalyticsPage() {
                     }}
                   />
                   <Bar dataKey="shifts" fill="#3b82f6" radius={[0, 4, 4, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
             </CardContent>
           </Card>
 
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
             {/* Weekend Equity */}
             <Card className="border-slate-800 bg-slate-900/50">
               <CardHeader>
@@ -213,8 +217,9 @@ export default function AnalyticsPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <ResponsiveContainer width="100%" height={250}>
-                  <PieChart>
+                <div className="h-[200px] md:h-[250px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
                     <Pie
                       data={analytics.weekendEquity}
                       cx="50%"
@@ -236,8 +241,9 @@ export default function AnalyticsPage() {
                         color: "#fff",
                       }}
                     />
-                  </PieChart>
-                </ResponsiveContainer>
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
               </CardContent>
             </Card>
 

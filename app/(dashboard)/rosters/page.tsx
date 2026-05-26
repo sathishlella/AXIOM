@@ -99,19 +99,19 @@ export default function RostersPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white">Rosters</h1>
+          <h1 className="text-xl md:text-2xl font-bold tracking-tight text-white">Rosters</h1>
           <p className="text-slate-400">Manage duty rosters and shift assignments.</p>
         </div>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-white text-slate-900 hover:bg-slate-200">
+            <Button className="bg-white text-slate-900 hover:bg-slate-200 w-full sm:w-auto">
               <Plus className="mr-2 h-4 w-4" />
               New Roster
             </Button>
           </DialogTrigger>
-          <DialogContent className="bg-slate-900 border-slate-800 text-white">
+          <DialogContent className="bg-slate-900 border-slate-800 text-white max-w-[95vw] sm:max-w-lg">
             <DialogHeader>
               <DialogTitle>Create New Roster</DialogTitle>
               <DialogDescription className="text-slate-400">
@@ -129,7 +129,7 @@ export default function RostersPage() {
                   className="bg-slate-800 border-slate-700 text-white"
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label className="text-slate-300">Month</Label>
                   <Select value={month} onValueChange={setMonth}>

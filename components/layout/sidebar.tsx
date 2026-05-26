@@ -32,7 +32,56 @@ export function Sidebar({ userRole }: SidebarProps) {
   const pathname = usePathname()
 
   return (
-    <div className="flex h-full w-64 flex-col border-r border-slate-800 bg-slate-950">
+    <div className="hidden md:flex h-full w-64 flex-col border-r border-slate-800 bg-slate-950">
+      <div className="flex h-16 items-center px-6">
+        <Shield className="h-6 w-6 text-white mr-2" />
+        <span className="text-lg font-bold tracking-tight text-white">AXIOM</span>
+      </div>
+      <Separator className="bg-slate-800" />
+      <ScrollArea className="flex-1 px-3 py-4">
+        <nav className="flex flex-col gap-1">
+          {navItems.map((item) => {
+            const Icon = item.icon
+            const isActive = pathname === item.href || pathname?.startsWith(`${item.href}/`)
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                  isActive
+                    ? "bg-slate-800 text-white"
+                    : "text-slate-400 hover:bg-slate-900 hover:text-white"
+                )}
+              >
+                <Icon className="h-4 w-4" />
+                {item.label}
+              </Link>
+            )
+          })}
+        </nav>
+      </ScrollArea>
+      <Separator className="bg-slate-800" />
+      <div className="p-3">
+        <Button
+          variant="ghost"
+          className="w-full justify-start text-slate-400 hover:bg-slate-900 hover:text-white"
+          onClick={() => signOut({ callbackUrl: "/login" })}
+        >
+          <LogOut className="mr-2 h-4 w-4" />
+          Sign Out
+        </Button>
+      </div>
+    </div>
+  )
+}
+
+// Reusable nav content for mobile drawer
+export function SidebarNavContent() {
+  const pathname = usePathname()
+
+  return (
+    <div className="flex h-full flex-col">
       <div className="flex h-16 items-center px-6">
         <Shield className="h-6 w-6 text-white mr-2" />
         <span className="text-lg font-bold tracking-tight text-white">AXIOM</span>

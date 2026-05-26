@@ -191,13 +191,13 @@ export default function EmployeesPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white">Employees</h1>
+          <h1 className="text-xl md:text-2xl font-bold tracking-tight text-white">Employees</h1>
           <p className="text-slate-400">Manage your ICT team members and their roles.</p>
         </div>
         <Button
-          className="bg-white text-slate-900 hover:bg-slate-200"
+          className="bg-white text-slate-900 hover:bg-slate-200 w-full sm:w-auto"
           onClick={() => setIsAddOpen(true)}
         >
           <Plus className="mr-2 h-4 w-4" />
@@ -220,92 +220,94 @@ export default function EmployeesPage() {
               ))}
             </div>
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow className="border-slate-800 hover:bg-transparent">
-                  <TableHead className="text-slate-400">Employee</TableHead>
-                  <TableHead className="text-slate-400">Initials</TableHead>
-                  <TableHead className="text-slate-400">Email</TableHead>
-                  <TableHead className="text-slate-400">Buddy</TableHead>
-                  <TableHead className="text-slate-400">Status</TableHead>
-                  <TableHead className="text-slate-400 text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {employees?.map((emp) => (
-                  <TableRow key={emp.id} className="border-slate-800">
-                    <TableCell>
-                      <div className="flex items-center gap-3">
-                        <Avatar className="h-8 w-8 border border-slate-700">
-                          <AvatarFallback className="bg-slate-800 text-white text-xs">
-                            {emp.initials || emp.name?.charAt(0) || "?"}
-                          </AvatarFallback>
-                        </Avatar>
-                        <span className="font-medium text-white">{emp.name}</span>
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-slate-300 font-mono text-sm">
-                      {emp.initials}
-                    </TableCell>
-                    <TableCell className="text-slate-400">{emp.email}</TableCell>
-                    <TableCell>
-                      {emp.isBuddy ? (
-                        <Badge className="bg-blue-500/10 text-blue-400 hover:bg-blue-500/20">
-                          Buddy
-                        </Badge>
-                      ) : (
-                        <span className="text-slate-600">-</span>
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <Switch
-                          checked={emp.isActive}
-                          onCheckedChange={(checked) =>
-                            toggleActiveMutation.mutate({ id: emp.id, isActive: checked })
-                          }
-                          className="data-[state=checked]:bg-emerald-500"
-                        />
-                        <span
-                          className={
-                            emp.isActive ? "text-emerald-400 text-sm" : "text-slate-500 text-sm"
-                          }
-                        >
-                          {emp.isActive ? "Active" : "Inactive"}
-                        </span>
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 text-slate-400 hover:text-white hover:bg-slate-800"
-                          onClick={() => setEditingEmployee(emp)}
-                        >
-                          <Pencil className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 text-slate-400 hover:text-red-400 hover:bg-red-950/30"
-                          onClick={() => setDeletingEmployee(emp)}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
+            <div className="overflow-x-auto -mx-2 px-2">
+              <Table>
+                <TableHeader>
+                  <TableRow className="border-slate-800 hover:bg-transparent">
+                    <TableHead className="text-slate-400 whitespace-nowrap">Employee</TableHead>
+                    <TableHead className="text-slate-400 whitespace-nowrap">Initials</TableHead>
+                    <TableHead className="text-slate-400 whitespace-nowrap">Email</TableHead>
+                    <TableHead className="text-slate-400 whitespace-nowrap">Buddy</TableHead>
+                    <TableHead className="text-slate-400 whitespace-nowrap">Status</TableHead>
+                    <TableHead className="text-slate-400 text-right whitespace-nowrap">Actions</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {employees?.map((emp) => (
+                    <TableRow key={emp.id} className="border-slate-800">
+                      <TableCell className="whitespace-nowrap">
+                        <div className="flex items-center gap-3">
+                          <Avatar className="h-8 w-8 border border-slate-700">
+                            <AvatarFallback className="bg-slate-800 text-white text-xs">
+                              {emp.initials || emp.name?.charAt(0) || "?"}
+                            </AvatarFallback>
+                          </Avatar>
+                          <span className="font-medium text-white">{emp.name}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-slate-300 font-mono text-sm whitespace-nowrap">
+                        {emp.initials}
+                      </TableCell>
+                      <TableCell className="text-slate-400 whitespace-nowrap">{emp.email}</TableCell>
+                      <TableCell className="whitespace-nowrap">
+                        {emp.isBuddy ? (
+                          <Badge className="bg-blue-500/10 text-blue-400 hover:bg-blue-500/20">
+                            Buddy
+                          </Badge>
+                        ) : (
+                          <span className="text-slate-600">-</span>
+                        )}
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap">
+                        <div className="flex items-center gap-2">
+                          <Switch
+                            checked={emp.isActive}
+                            onCheckedChange={(checked) =>
+                              toggleActiveMutation.mutate({ id: emp.id, isActive: checked })
+                            }
+                            className="data-[state=checked]:bg-emerald-500"
+                          />
+                          <span
+                            className={
+                              emp.isActive ? "text-emerald-400 text-sm" : "text-slate-500 text-sm"
+                            }
+                          >
+                            {emp.isActive ? "Active" : "Inactive"}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-right whitespace-nowrap">
+                        <div className="flex items-center justify-end gap-2">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 text-slate-400 hover:text-white hover:bg-slate-800"
+                            onClick={() => setEditingEmployee(emp)}
+                          >
+                            <Pencil className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 text-slate-400 hover:text-red-400 hover:bg-red-950/30"
+                            onClick={() => setDeletingEmployee(emp)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           )}
         </CardContent>
       </Card>
 
       {/* Add Employee Dialog */}
       <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
-        <DialogContent className="bg-slate-900 border-slate-800 text-white sm:max-w-md">
+        <DialogContent className="bg-slate-900 border-slate-800 text-white max-w-[95vw] sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <UserPlus className="h-5 w-5" />
@@ -348,7 +350,7 @@ export default function EmployeesPage() {
 
       {/* Edit Employee Dialog */}
       <Dialog open={!!editingEmployee} onOpenChange={(open) => !open && setEditingEmployee(null)}>
-        <DialogContent className="bg-slate-900 border-slate-800 text-white sm:max-w-md">
+        <DialogContent className="bg-slate-900 border-slate-800 text-white max-w-[95vw] sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Pencil className="h-5 w-5" />
@@ -397,7 +399,7 @@ export default function EmployeesPage() {
 
       {/* Delete Confirmation */}
       <AlertDialog open={!!deletingEmployee} onOpenChange={(open) => !open && setDeletingEmployee(null)}>
-        <AlertDialogContent className="bg-slate-900 border-slate-800 text-white">
+        <AlertDialogContent className="bg-slate-900 border-slate-800 text-white max-w-[95vw] sm:max-w-md">
           <AlertDialogHeader>
             <AlertDialogTitle className="flex items-center gap-2 text-white">
               <AlertTriangle className="h-5 w-5 text-red-400" />

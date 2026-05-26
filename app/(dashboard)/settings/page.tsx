@@ -100,7 +100,7 @@ export default function SettingsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-white">Settings</h1>
+        <h1 className="text-xl md:text-2xl font-bold tracking-tight text-white">Settings</h1>
         <p className="text-slate-400">Organization preferences and system configuration.</p>
       </div>
 
@@ -124,7 +124,7 @@ export default function SettingsPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label className="text-slate-300">Organization Name</Label>
                   <Input
@@ -159,7 +159,7 @@ export default function SettingsPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label className="text-slate-300">Resend API Key</Label>
                   <Input
@@ -214,7 +214,7 @@ export default function SettingsPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex items-center justify-between py-2">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between py-2 gap-3">
                 <div>
                   <p className="text-white font-medium">Email on Publish</p>
                   <p className="text-sm text-slate-400">
@@ -247,42 +247,44 @@ export default function SettingsPage() {
               {shiftTypesLoading ? (
                 <Skeleton className="h-40 bg-slate-800" />
               ) : (
-                <Table>
-                  <TableHeader>
-                    <TableRow className="border-slate-800 hover:bg-transparent">
-                      <TableHead className="text-slate-400">Name</TableHead>
-                      <TableHead className="text-slate-400">Code</TableHead>
-                      <TableHead className="text-slate-400">Time</TableHead>
-                      <TableHead className="text-slate-400">Location</TableHead>
-                      <TableHead className="text-slate-400">Category</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {shiftTypes?.map((st) => (
-                      <TableRow key={st.id} className="border-slate-800">
-                        <TableCell className="text-white">{st.name}</TableCell>
-                        <TableCell className="text-slate-300 font-mono text-sm">{st.code}</TableCell>
-                        <TableCell className="text-slate-400">
-                          {st.startTime} - {st.endTime}
-                        </TableCell>
-                        <TableCell className="text-slate-400">{st.location || "-"}</TableCell>
-                        <TableCell>
-                          <Badge
-                            className={
-                              st.category === "EARLY"
-                                ? "bg-amber-500/10 text-amber-400"
-                                : st.category === "WEEKEND"
-                                ? "bg-emerald-500/10 text-emerald-400"
-                                : "bg-blue-500/10 text-blue-400"
-                            }
-                          >
-                            {st.category}
-                          </Badge>
-                        </TableCell>
+                <div className="overflow-x-auto -mx-2 px-2">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="border-slate-800 hover:bg-transparent">
+                        <TableHead className="text-slate-400 whitespace-nowrap">Name</TableHead>
+                        <TableHead className="text-slate-400 whitespace-nowrap">Code</TableHead>
+                        <TableHead className="text-slate-400 whitespace-nowrap">Time</TableHead>
+                        <TableHead className="text-slate-400 whitespace-nowrap">Location</TableHead>
+                        <TableHead className="text-slate-400 whitespace-nowrap">Category</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                    </TableHeader>
+                    <TableBody>
+                      {shiftTypes?.map((st) => (
+                        <TableRow key={st.id} className="border-slate-800">
+                          <TableCell className="text-white whitespace-nowrap">{st.name}</TableCell>
+                          <TableCell className="text-slate-300 font-mono text-sm whitespace-nowrap">{st.code}</TableCell>
+                          <TableCell className="text-slate-400 whitespace-nowrap">
+                            {st.startTime} - {st.endTime}
+                          </TableCell>
+                          <TableCell className="text-slate-400 whitespace-nowrap">{st.location || "-"}</TableCell>
+                          <TableCell className="whitespace-nowrap">
+                            <Badge
+                              className={
+                                st.category === "EARLY"
+                                  ? "bg-amber-500/10 text-amber-400"
+                                  : st.category === "WEEKEND"
+                                  ? "bg-emerald-500/10 text-emerald-400"
+                                  : "bg-blue-500/10 text-blue-400"
+                              }
+                            >
+                              {st.category}
+                            </Badge>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
               )}
             </CardContent>
           </Card>
@@ -290,7 +292,7 @@ export default function SettingsPage() {
           {/* Save Button */}
           <div className="flex justify-end">
             <Button
-              className="bg-white text-slate-900 hover:bg-slate-200"
+              className="bg-white text-slate-900 hover:bg-slate-200 w-full sm:w-auto"
               onClick={handleSave}
               disabled={updateSettings.isPending}
             >
